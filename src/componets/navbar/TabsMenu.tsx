@@ -1,21 +1,36 @@
+import { Button } from "@mui/material";
 import React from "react";
-import { TabMenu } from "primereact/tabmenu";
-import "primereact/resources/themes/lara-light-indigo/theme.css"; // O cualquier otro tema
-import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";
-import { MenuItem } from "primereact/menuitem";
 
-const TabsMenu = () => {
-  const items: MenuItem[] = [
-    { label: "Dashboard", icon: "pi pi-home" },
-    { label: "Transactions", icon: "pi pi-chart-line" },
-    { label: "Products", icon: "pi pi-list" },
-    { label: "Messages", icon: "pi pi-inbox" },
-  ];
+/**
+ * Tab defines the structure of each tab in the TabsMenu component.
+ */
+interface Tab {
+  name: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  icon: React.ElementType<any>; // Reemplaza "any" con el tipo de tus iconos si lo tienes definido
+  link: string;
+}
 
+/**
+ * TabsMenuProps defines the properties expected by the TabsMenu component.
+ */
+interface TabsMenuProps {
+  tabs: Tab[];
+}
+
+const TabsMenu: React.FC<TabsMenuProps> = ({ tabs }) => {
   return (
-    <div className="card">
-      <TabMenu model={items} className="flex flex-row space-x-4" />
+    <div style={{ display: "flex", alignItems: "center" }}>
+      {tabs.map((tab) => (
+        <Button
+          key={tab.name}
+          href={tab.link}
+          sx={{ color: "white", mx: 1 }}
+          startIcon={<tab.icon />}
+        >
+          {tab.name}
+        </Button>
+      ))}
     </div>
   );
 };
