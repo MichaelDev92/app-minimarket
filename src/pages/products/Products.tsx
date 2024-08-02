@@ -1,105 +1,87 @@
+// src/pages/Products.tsx
+import React, { useState } from "react";
+import { Col, Row, Tabs } from "antd";
 import ProductCarousel from "../../componets/galerry/ProductCarousel";
-import image from "../../assets/png/login-market.png";
-import { Button, Col, Row, Tabs } from "antd";
-import ProductCard from "../../componets/cards/ProductCard";
+import TabContent from "../../componets/tabs/TabContent";
+import { products, soldProducts } from "./types";
 
-const { TabPane } = Tabs;
 const Products: React.FC = () => {
-  const products = [
-    {
-      id: "1",
-      name: "Producto 1",
-      description: "Descripción del producto 1",
-      image: image,
-      price: 100,
-      inventoryStatus: "INSTOCK",
-    },
-    {
-      id: "2",
-      name: "Producto 2",
-      description: "Descripción del producto 2",
-      image:
-        "https://images.pexels.com/photos/890669/pexels-photo-890669.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      price: 150,
-      inventoryStatus: "LOWSTOCK",
-    },
-    {
-      id: "3",
-      name: "Producto 3",
-      description: "Descripción del producto 3",
-      image:
-        "https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg?auto=compress&cs=tinysrgb&w=600",
-      price: 100,
-      inventoryStatus: "INSTOCK",
-    },
-    {
-      id: "4",
-      name: "Producto 4",
-      description: "Descripción del producto 4",
-      image:
-        "https://images.pexels.com/photos/297933/pexels-photo-297933.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      price: 150,
-      inventoryStatus: "LOWSTOCK",
-    },
-  ];
+  const [searchText, setSearchText] = useState("");
+  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [filteredSoldProducts, setFilteredSoldProducts] =
+    useState(soldProducts);
 
-  const soldProducts = [
-    // Puedes agregar productos vendidos aquí
+  const handleSearch = (value: string) => {
+    setSearchText(value);
+    const filtered = products.filter((item) =>
+      item.name.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredProducts(filtered);
+  };
+
+  const handleSearchSoldProducts = (value: string) => {
+    setSearchText(value);
+    const filtered = soldProducts.filter((item) =>
+      item.name.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredSoldProducts(filtered);
+  };
+
+  const tabs = [
     {
-      id: "5",
-      name: "Producto Vendido 1",
-      description: "Descripción del producto vendido 1",
-      image: image,
-      price: 200,
-      inventoryStatus: "SOLD",
+      key: "1",
+      label: "Mis productos",
+      children: (
+        <TabContent
+          products={filteredProducts}
+          searchText={searchText}
+          handleSearch={handleSearch}
+        />
+      ),
     },
     {
-      id: "6",
-      name: "Producto Vendido 2",
-      description: "Descripción del producto vendido 2",
-      image:
-        "https://images.pexels.com/photos/890669/pexels-photo-890669.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-      price: 250,
-      inventoryStatus: "SOLD",
+      key: "2",
+      label: "Productos Vendidos",
+      children: (
+        <TabContent
+          products={filteredSoldProducts}
+          searchText={searchText}
+          handleSearch={handleSearchSoldProducts}
+        />
+      ),
+    },
+    {
+      key: "3",
+      label: "Productos más vendidos",
+      children: (
+        <Row gutter={16} className="flex justify-center">
+          {/* <Col span={6}>
+            <Menu
+              // You might want to pass `items` and `onClick` from the parent component
+              onClick={(e) => console.log("click ", e)}
+              style={{ width: 256 }}
+              defaultSelectedKeys={["1"]}
+              defaultOpenKeys={["sub1"]}
+              mode="inline"
+              items={items}
+            />
+          </Col> */}
+          <Col span={18} className="">
+            <h1>Los productos más vendidos</h1>
+            <div className="">
+              <div>
+                <ProductCarousel products={products} />
+              </div>
+            </div>
+          </Col>
+        </Row>
+      ),
     },
   ];
 
   return (
-    <div className="flex flex-col items-center p-4">
-      {/* Carrusel en la parte superior */}
-
-      {/* Tabs debajo del carrusel */}
-      <Tabs defaultActiveKey="1" centered>
-        <TabPane tab="Mis productos" key="1">
-          <div className="flex justify-end">
-            <Button className="bg-blue-700 text-white hover:bg-blue-200">
-              Agregar más Productos
-            </Button>
-          </div>
-          <Row gutter={16} justify="center">
-            {products.map((product) => (
-              <Col span={8} key={product.id} className="mb-4">
-                <ProductCard product={product} />
-              </Col>
-            ))}
-          </Row>
-        </TabPane>
-        <TabPane tab="Productos Vendidos" key="2">
-          <Row gutter={16} justify="center">
-            {soldProducts.map((product) => (
-              <Col span={8} key={product.id} className="mb-4 ml-8">
-                <ProductCard product={product} />
-              </Col>
-            ))}
-          </Row>
-        </TabPane>
-        <TabPane tab="Productos más vendidos" key="3">
-          <h1>Los productos más vendidos</h1>
-          <div className="w-full max-w-4xl mb-8">
-            <ProductCarousel products={products} />
-          </div>
-        </TabPane>
-      </Tabs>
+    <div className="p-4">
+      <Tabs defaultActiveKey="1" centered items={tabs} />
     </div>
   );
 };

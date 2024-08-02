@@ -1,17 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { Card, Carousel } from "antd";
-import ProductCard from "../cards/ProductCard"; // Asegúrate de ajustar la ruta
-import ArrowButton from "../buttons/ArrowButton"; // Asegúrate de ajustar la ruta
 import Meta from "antd/es/card/Meta";
 
 interface Product {
   id: string;
   name: string;
-  description: string;
-  image: string;
-  price: number;
-  inventoryStatus: string;
+  valor: number;
+  tipo_producto: string;
+  caracteristicas: string;
+  stock: number;
+  subtotal: number;
+  iva: number;
+  estado: string;
+  images: string[];
 }
 
 interface ProductCarouselProps {
@@ -33,10 +35,10 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
         <div key={product.id} className="p-2">
           <Card
             hoverable
-            cover={<img alt={product.name} src={product.image} />}
-            style={{ width: 150 }} // Ajusta el ancho de las tarjetas según sea necesario
+            cover={<img alt={product.name} src={product.images[0]} />}
+            style={{ width: 240 }} // Ajusta el ancho de las tarjetas según sea necesario
           >
-            <Meta title={product.name} description={`$${product.price}`} />
+            <Meta title={product.name} description={`$${product.valor}`} />
           </Card>
         </div>
       ))}

@@ -1,13 +1,19 @@
+// src/components/cards/ProductCard.tsx
+
 import React from "react";
 import { Card, Button, Tag } from "antd";
 
 interface Product {
   id: string;
   name: string;
-  description: string;
-  image: string;
-  price: number;
-  inventoryStatus: string;
+  valor: number;
+  tipo_producto: string;
+  caracteristicas: string;
+  stock: number;
+  subtotal: number;
+  iva: number;
+  estado: string;
+  images: string[];
 }
 
 interface ProductCardProps {
@@ -31,20 +37,20 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <Card
       hoverable
-      cover={<img alt={product.name} src={product.image} />}
+      cover={<img alt={product.name} src={product.images[0]} />}
       style={{ width: 240, margin: "16px" }}
     >
-      <Card.Meta title={product.name} description={product.description} />
+      <Card.Meta title={product.name} description={product.tipo_producto} />
       <div style={{ marginTop: 16 }}>
-        <h4>${product.price}</h4>
-        <Tag color={getSeverity(product.inventoryStatus)}>
-          {product.inventoryStatus}
-        </Tag>
+        <h4>${product.valor}</h4>
+        {/* <p>Características: {product.caracteristicas}</p>
+        <p>Stock: {product.stock}</p>
+        <p>Subtotal: ${product.subtotal}</p>
+        <p>IVA: ${product.iva}</p> */}
+        <Tag color={getSeverity(product.estado)}>{product.estado}</Tag>
         <div style={{ marginTop: 16 }}>
-          <Button type="primary" icon="search">
-            View
-          </Button>
-          <Button type="default" icon="star" style={{ marginLeft: 8 }}>
+          <Button type="primary">View</Button>
+          <Button type="default" style={{ marginLeft: 8 }}>
             Favorite
           </Button>
         </div>
