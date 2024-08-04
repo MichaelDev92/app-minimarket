@@ -10,15 +10,17 @@ import Tooltip from "@mui/material/Tooltip";
 import logo from "../../assets/png/logo.png";
 import TabsMenu from "./TabsMenu"; // Asegúrate de importar tu componente de TabsMenu
 import { Menu, MenuItem } from "@mui/material";
-import { Menu as MenuIcon, Weight } from "lucide-react";
+import { Home, Menu as MenuIcon, Weight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const pages = [
+  { name: "Panel de control", icon: Home, link: "/home" },
   { name: "Productos", icon: Weight, link: "/products" },
-  // { name: "Ventas", icon: ShoppingBasket, link: "/sales" },
 ];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -42,6 +44,10 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
 
+  const handleClick = (route: string) => {
+    navigate(route);
+  };
+
   return (
     <AppBar position="static" sx={{ backgroundColor: "#0096CC" }}>
       <Container maxWidth="xl">
@@ -54,13 +60,12 @@ const Navbar = () => {
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <a href="/products">
-                <img
-                  className="h-10 w-15 bg-white rounded-full"
-                  src={logo}
-                  alt="Logo"
-                />
-              </a>
+              <img
+                className="h-10 w-15 bg-white rounded-full"
+                src={logo}
+                alt="Logo"
+                onClick={() => handleClick("/home")}
+              />
               <Typography variant="h6" sx={{ ml: 2, color: "white" }}>
                 MiniMarket
               </Typography>

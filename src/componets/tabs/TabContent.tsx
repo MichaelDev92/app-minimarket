@@ -1,4 +1,4 @@
-// src/components/TabContent.tsx
+// TabContent.tsx
 import React from "react";
 import { Col, Menu, Row } from "antd";
 import ProductCard from "../cards/ProductCard";
@@ -9,21 +9,21 @@ interface TabContentProps {
   products: Product[];
   searchText: string;
   handleSearch: (value: string) => void;
+  createdButton?: boolean;
 }
 
 const TabContent: React.FC<TabContentProps> = ({
   products,
   searchText,
   handleSearch,
+  createdButton,
 }) => (
   <Row gutter={16}>
-    <Col span={6}>
-      <div className="bg-white" style={{ width: 256, height: "100vh" }}>
+    <Col span={24} md={6} className="overflow-auto">
+      <div className="bg-white h-full">
         <Menu
-          // You might want to pass `items` and `onClick` from the parent component
           items={items}
           onClick={(e) => console.log("click ", e)}
-          style={{ width: 256 }}
           defaultSelectedKeys={["1"]}
           defaultOpenKeys={["sub1"]}
           mode="inline"
@@ -31,12 +31,16 @@ const TabContent: React.FC<TabContentProps> = ({
         />
       </div>
     </Col>
-    <Col span={18}>
+    <Col span={24} md={18}>
       <div className="mb-4">
-        <SearchAndButton onSearch={handleSearch} searchText={searchText} />
+        <SearchAndButton
+          onSearch={handleSearch}
+          searchText={searchText}
+          createdButton={createdButton ? createdButton : false}
+        />
         <Row gutter={16} justify="center">
           {products.map((product) => (
-            <Col span={8} key={product.id} className="mb-4">
+            <Col span={24} md={8} key={product.id} className="mb-4">
               <ProductCard product={product} />
             </Col>
           ))}

@@ -1,9 +1,9 @@
-// src/pages/Products.tsx
+// Products.tsx
 import React, { useState } from "react";
 import { Col, Row, Tabs } from "antd";
-import ProductCarousel from "../../componets/galerry/ProductCarousel";
-import TabContent from "../../componets/tabs/TabContent";
 import { products, soldProducts } from "./types";
+import TabContent from "../../componets/tabs/TabContent";
+import ProductCarousel from "../../componets/galerry/ProductCarousel";
 
 const Products: React.FC = () => {
   const [searchText, setSearchText] = useState("");
@@ -36,6 +36,7 @@ const Products: React.FC = () => {
           products={filteredProducts}
           searchText={searchText}
           handleSearch={handleSearch}
+          createdButton={true}
         />
       ),
     },
@@ -55,23 +56,10 @@ const Products: React.FC = () => {
       label: "Productos más vendidos",
       children: (
         <Row gutter={16} className="flex justify-center">
-          {/* <Col span={6}>
-            <Menu
-              // You might want to pass `items` and `onClick` from the parent component
-              onClick={(e) => console.log("click ", e)}
-              style={{ width: 256 }}
-              defaultSelectedKeys={["1"]}
-              defaultOpenKeys={["sub1"]}
-              mode="inline"
-              items={items}
-            />
-          </Col> */}
-          <Col span={18} className="">
+          <Col span={18}>
             <h1>Los productos más vendidos</h1>
-            <div className="">
-              <div>
-                <ProductCarousel products={products} />
-              </div>
+            <div>
+              <ProductCarousel products={products} />
             </div>
           </Col>
         </Row>
@@ -80,7 +68,7 @@ const Products: React.FC = () => {
   ];
 
   return (
-    <div className="p-4">
+    <div className="p-4 overflow-x-auto">
       <Tabs defaultActiveKey="1" centered items={tabs} />
     </div>
   );
