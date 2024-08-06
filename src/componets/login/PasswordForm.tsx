@@ -2,21 +2,32 @@ import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
+import { useAuth } from "../../provider/AuthContext";
 
 interface PasswordFormInputs {
   password: string;
 }
 
 const PasswordForm: React.FC = () => {
+  const { login, nit, redirectToHome } = useAuth();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<PasswordFormInputs>();
 
-  const onSubmit: SubmitHandler<PasswordFormInputs> = (data) => {
-    // Handle password submission
-    console.log("Password Data:", data);
+  const onSubmit: SubmitHandler<PasswordFormInputs> = async (data) => {
+    if (nit) {
+      // Ensure nit is available before calling login
+      const success = await login(nit, data.password); // Suponiendo que tu función de login existe y retorna un booleano o algo similar
+
+      if (success) {
+        redirectToHome(); // Redirige a la página de inicio después de un inicio de sesión exitoso
+      } else {
+        // Manejo de errores
+        alert("Login failed, please try again.");
+      }
+    }
   };
 
   return (

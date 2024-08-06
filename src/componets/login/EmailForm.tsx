@@ -4,15 +4,15 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 
 interface EmailFormInputs {
-  email: string;
+  nit: string;
 }
 
 interface EmailFormProps {
-  onSuccess: (email: string) => void;
-  initialEmail?: string | null;
+  onSuccess: (nit: string) => void;
+  initialNit?: string | null;
 }
 
-const EmailForm: React.FC<EmailFormProps> = ({ onSuccess, initialEmail }) => {
+const EmailForm: React.FC<EmailFormProps> = ({ onSuccess, initialNit }) => {
   const {
     register,
     handleSubmit,
@@ -20,19 +20,19 @@ const EmailForm: React.FC<EmailFormProps> = ({ onSuccess, initialEmail }) => {
     setValue,
   } = useForm<EmailFormInputs>({
     defaultValues: {
-      email: initialEmail || "",
+      nit: initialNit || "",
     },
   });
 
   const onSubmit: SubmitHandler<EmailFormInputs> = (data) => {
-    onSuccess(data.email);
+    onSuccess(data.nit);
   };
 
   React.useEffect(() => {
-    if (initialEmail) {
-      setValue("email", initialEmail);
+    if (initialNit) {
+      setValue("nit", initialNit);
     }
-  }, [initialEmail, setValue]);
+  }, [initialNit, setValue]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -41,15 +41,15 @@ const EmailForm: React.FC<EmailFormProps> = ({ onSuccess, initialEmail }) => {
           htmlFor="email"
           className="block text-sm font-medium text-gray-700"
         >
-          Email
+          NIT de la empresa
         </label>
         <InputText
           id="email"
-          {...register("email", { required: "Email is required" })}
+          {...register("nit", { required: "Email is required" })}
           className="w-full p-2 border border-gray-300 rounded-md"
         />
-        {errors.email && (
-          <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
+        {errors.nit && (
+          <p className="text-red-500 text-xs mt-1">{errors.nit.message}</p>
         )}
       </div>
       <div className="flex justify-center">

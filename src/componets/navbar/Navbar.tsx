@@ -12,6 +12,7 @@ import TabsMenu from "./TabsMenu"; // Asegúrate de importar tu componente de Ta
 import { Menu, MenuItem } from "@mui/material";
 import { Home, Menu as MenuIcon, Weight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../provider/AuthContext";
 
 const pages = [
   { name: "Panel de control", icon: Home, link: "/home" },
@@ -21,6 +22,7 @@ const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const { logout, redirectToLogin } = useAuth();
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -40,8 +42,13 @@ const Navbar = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = async (accion: string) => {
     setAnchorElUser(null);
+    console.log(accion);
+    if (accion === "Logout") {
+      await logout();
+      redirectToLogin();
+    }
   };
 
   const handleClick = (route: string) => {
@@ -106,7 +113,10 @@ const Navbar = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem
+                  key={setting}
+                  onClick={() => handleCloseUserMenu(setting)}
+                >
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}

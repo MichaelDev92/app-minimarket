@@ -2,22 +2,23 @@
 import React from "react";
 import { Card, Carousel } from "antd";
 import Meta from "antd/es/card/Meta";
+import { ProductFormData } from "../form/ProductForm";
 
-interface Product {
-  id: string;
-  name: string;
-  valor: number;
-  tipo_producto: string;
-  caracteristicas: string;
-  stock: number;
-  subtotal: number;
-  iva: number;
-  estado: string;
-  images: string[];
-}
+// interface Product {
+//   id: string;
+//   name: string;
+//   valor: number;
+//   tipo_producto: string;
+//   caracteristicas: string;
+//   stock: number;
+//   subtotal: number;
+//   iva: number;
+//   estado: string;
+//   images: string[];
+// }
 
 interface ProductCarouselProps {
-  products: Product[];
+  products: ProductFormData[];
 }
 
 const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
@@ -31,14 +32,14 @@ const ProductCarousel: React.FC<ProductCarouselProps> = ({ products }) => {
       style={{ width: "100%" }}
       className="bg-gray-200"
     >
-      {products.map((product) => (
-        <div key={product.id} className="p-2">
+      {products.map((product, index: any) => (
+        <div key={index} className="p-2">
           <Card
             hoverable
-            cover={<img alt={product.name} src={product.images[0]} />}
+            cover={<img alt={product.nombre} src={product.images[0]} />}
             style={{ width: 240 }} // Ajusta el ancho de las tarjetas según sea necesario
           >
-            <Meta title={product.name} description={`$${product.valor}`} />
+            <Meta title={product.nombre} description={`$${product.valor}`} />
           </Card>
         </div>
       ))}

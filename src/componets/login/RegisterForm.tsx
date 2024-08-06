@@ -1,36 +1,49 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
+import { useAuth } from "../../provider/AuthContext";
 
 interface RegisterFormInputs {
   nit: string;
-  businessName: string;
-  phone: string;
+  nombre: string;
+  telefono: string;
   password: string;
+  correo: string;
   confirmPassword: string;
 }
 
 const RegisterForm: React.FC = () => {
+  const { registerClient, error, nit, setNit } = useAuth(); // Accede a nit y setNit desde el contexto
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
+    setValue, // Utiliza setValue para establecer valores por defecto
   } = useForm<RegisterFormInputs>();
 
   const password = watch("password"); // Watch password field to validate confirmPassword
 
-  const onSubmit: SubmitHandler<RegisterFormInputs> = (data) => {
-    // Handle registration
-    console.log("Registration Data:", data);
+  // Establece el valor por defecto de nit al cargar el componente
+  useEffect(() => {
+    if (nit) {
+      setValue("nit", nit);
+    }
+  }, [nit, setValue]);
+
+  const onSubmit: SubmitHandler<RegisterFormInputs> = async (data) => {
+    setNit(data.nit); // Actualiza el nit en el contexto
+    await registerClient(data);
   };
 
   const handleInput = (e: React.FormEvent<HTMLInputElement>) => {
     e.currentTarget.value = e.currentTarget.value.replace(/[^0-9]/g, "");
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
       <div>
         <label
           htmlFor="nit"
@@ -57,38 +70,52 @@ const RegisterForm: React.FC = () => {
       </div>
       <div>
         <label
-          htmlFor="businessName"
+          htmlFor="nombre"
           className="block text-sm font-medium text-gray-700"
         >
           Business Name
         </label>
         <InputText
-          id="businessName"
-          {...register("businessName", {
+          id="nombre"
+          {...register("nombre", {
             required: "Business Name is required",
           })}
           className="w-full p-2 border border-gray-300 rounded-md"
         />
-        {errors.businessName && (
-          <p className="text-red-500 text-xs mt-1">
-            {errors.businessName.message}
-          </p>
+        {errors.nombre && (
+          <p className="text-red-500 text-xs mt-1">{errors.nombre.message}</p>
         )}
       </div>
       <div>
         <label
-          htmlFor="phone"
+          htmlFor="telefono"
           className="block text-sm font-medium text-gray-700"
         >
           Phone
         </label>
         <InputText
-          id="phone"
-          {...register("phone", { required: "Phone is required" })}
+          id="telefono"
+          {...register("telefono", { required: "Phone is required" })}
           className="w-full p-2 border border-gray-300 rounded-md"
         />
-        {errors.phone && (
-          <p className="text-red-500 text-xs mt-1">{errors.phone.message}</p>
+        {errors.telefono && (
+          <p className="text-red-500 text-xs mt-1">{errors.telefono.message}</p>
+        )}
+      </div>
+      <div>
+        <label
+          htmlFor="correo"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Email
+        </label>
+        <InputText
+          id="correo"
+          {...register("correo", { required: "Email is required" })}
+          className="w-full p-2 border border-gray-300 rounded-md"
+        />
+        {errors.correo && (
+          <p className="text-red-500 text-xs mt-1">{errors.correo.message}</p>
         )}
       </div>
       <div>

@@ -2,33 +2,32 @@
 
 import React from "react";
 import { Card, Button, Tag } from "antd";
+import { ProductFormData } from "../form/ProductForm";
 
-interface Product {
-  id: string;
-  name: string;
-  valor: number;
-  tipo_producto: string;
-  caracteristicas: string;
-  stock: number;
-  subtotal: number;
-  iva: number;
-  estado: string;
-  images: string[];
-}
+// interface Product {
+//   id: string;
+//   name: string;
+//   valor: number;
+//   tipo_producto: string;
+//   caracteristicas: string;
+//   stock: number;
+//   subtotal: number;
+//   iva: number;
+//   estado: string;
+//   images: string;
+// }
 
 interface ProductCardProps {
-  product: Product;
+  product: ProductFormData;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const getSeverity = (status: string) => {
+  const getSeverity = (status: number) => {
     switch (status) {
-      case "INSTOCK":
+      case 1:
         return "success";
-      case "LOWSTOCK":
+      case 2:
         return "warning";
-      case "OUTOFSTOCK":
-        return "error";
       default:
         return "default";
     }
@@ -37,10 +36,18 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <Card
       hoverable
-      cover={<img alt={product.name} src={product.images[0]} />}
+      cover={
+        <img
+          alt={product.nombre}
+          src={
+            product.images ||
+            "https://images.pexels.com/photos/890669/pexels-photo-890669.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          }
+        />
+      }
       style={{ width: 240, margin: "16px" }}
     >
-      <Card.Meta title={product.name} description={product.tipo_producto} />
+      <Card.Meta title={product.nombre} description={product.tipo_producto} />
       <div style={{ marginTop: 16 }}>
         <h4>${product.valor}</h4>
         {/* <p>Características: {product.caracteristicas}</p>

@@ -1,20 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import { Divider } from "primereact/divider";
 import RegisterForm from "../../componets/login/RegisterForm";
 import PasswordForm from "../../componets/login/PasswordForm";
 import EmailForm from "../../componets/login/EmailForm";
 import imageLogin from "../../assets/png/login-market.png";
+import { useAuth } from "../../provider/AuthContext";
 
 const Login: React.FC = () => {
-  const [formState, setFormState] = useState<
-    "email" | "password" | "register" | null
-  >("email");
-  const [email, setEmail] = useState<null | string>(null);
+  const { formState, setFormState, nit, setNit, checkNitExists } = useAuth();
 
-  const handleEmailSubmit = (email: string) => {
-    // Simulate checking if the email is registered
-    setEmail(email);
-    if (email === "registered@example.com") {
+  const handleEmailSubmit = async (nit: string) => {
+    setNit(nit);
+    const exists = await checkNitExists(nit);
+
+    if (exists) {
       setFormState("password");
     } else {
       setFormState("register");
@@ -22,12 +21,12 @@ const Login: React.FC = () => {
   };
 
   const handleGoBack = () => {
-    setFormState("email");
+    setFormState("nit");
   };
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-blue-200 p-0">
-      <div className="flex-1 flex items-center justify-center  gap-3 py-5">
+      <div className="flex-1 flex items-center justify-center gap-3 py-5">
         <div className="w-full max-w-md p-8 shadow-md rounded-lg bg-gray-100">
           {formState === "register" && (
             <button
@@ -49,16 +48,16 @@ const Login: React.FC = () => {
             className="text-2xl font-bold mb-6 flex justify-center"
             style={{ color: "#071952" }}
           >
-            {formState === "email" && "Iniciar sesión"}
+            {formState === "nit" && "Iniciar sesión"}
             {formState === "register" && "Regístrate"}
           </h2>
 
-          {formState === "email" && (
-            <EmailForm onSuccess={handleEmailSubmit} initialEmail={email} />
+          {formState === "nit" && (
+            <EmailForm onSuccess={handleEmailSubmit} initialNit={nit} />
           )}
           {formState === "password" && (
             <>
-              <h2 className="text-2xl font-bold mb-6">Ingresar contraseña </h2>
+              <h2 className="text-2xl font-bold mb-6">Ingresar contraseña</h2>
               <PasswordForm />
             </>
           )}
@@ -74,10 +73,9 @@ const Login: React.FC = () => {
       </div>
 
       <div className="hidden lg:flex flex-1 items-center">
-        {/* Imagen de ejemplo, puedes ajustar la ruta según tu necesidad */}
         <div className="flex flex-col 2xl:ml-40 ml-10">
           <h2
-            className="text-2xl font-bold mb-6 flex justify-center items-center "
+            className="text-2xl font-bold mb-6 flex justify-center items-center"
             style={{ color: "#071952" }}
           >
             MiniMarket
@@ -85,7 +83,7 @@ const Login: React.FC = () => {
           <img
             src={imageLogin}
             alt="Descripción de la imagen"
-            width={500} // Ajusta el tamaño de la imagen según lo necesites
+            width={500}
             height={500}
           />
         </div>

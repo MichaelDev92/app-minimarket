@@ -1,20 +1,29 @@
 // Products.tsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Row, Tabs } from "antd";
-import { products, soldProducts } from "./types";
+import { products as dataProduct, soldProducts } from "./types";
 import TabContent from "../../componets/tabs/TabContent";
 import ProductCarousel from "../../componets/galerry/ProductCarousel";
+import { useGetProductsQuery } from "../../reducers/productsApi";
 
 const Products: React.FC = () => {
   const [searchText, setSearchText] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState(products);
+  const { data: products, isLoading } = useGetProductsQuery();
+  const [filteredProducts, setFilteredProducts] = useState(products?.productos);
   const [filteredSoldProducts, setFilteredSoldProducts] =
     useState(soldProducts);
+  useEffect(() => {
+    if (!isLoading && products) {
+      setFilteredProducts(products.productos);
+    }
+  }, [products]);
+
+  console.log(filteredSoldProducts);
 
   const handleSearch = (value: string) => {
     setSearchText(value);
-    const filtered = products.filter((item) =>
-      item.name.toLowerCase().includes(value.toLowerCase())
+    const filtered = products?.productos?.filter((item) =>
+      item.nombre.toLowerCase().includes(value.toLowerCase())
     );
     setFilteredProducts(filtered);
   };
@@ -45,7 +54,7 @@ const Products: React.FC = () => {
       label: "Productos Vendidos",
       children: (
         <TabContent
-          products={filteredSoldProducts}
+          products={filteredProducts}
           searchText={searchText}
           handleSearch={handleSearchSoldProducts}
         />
@@ -59,7 +68,7 @@ const Products: React.FC = () => {
           <Col span={18}>
             <h1>Los productos más vendidos</h1>
             <div>
-              <ProductCarousel products={products} />
+              <ProductCarousel products={products?.productos || dataProduct} />
             </div>
           </Col>
         </Row>

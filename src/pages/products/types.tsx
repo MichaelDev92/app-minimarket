@@ -1,6 +1,7 @@
 import { MenuProps } from "antd";
 import image from "../../assets/png/login-market.png";
 import { UnorderedListOutlined } from "@ant-design/icons";
+import { ProductFormData } from "../../componets/form/ProductForm";
 
 export interface Product {
   id: string;
@@ -12,7 +13,7 @@ export interface Product {
   subtotal: number;
   iva: number;
   estado: string;
-  images: string[];
+  images: string;
 }
 
 export const categories = [
@@ -33,60 +34,39 @@ export const categories = [
   { id: 14, descripcion: "Juegos", estado: 1 },
 ];
 
-export const products: Product[] = [
+export const products: ProductFormData[] = [
   {
-    id: "1",
-    name: "Producto 1",
+    nombre: "Producto 1",
     valor: 100,
-    tipo_producto: "Tipo 1",
+    tipo_producto: 1,
     caracteristicas: "Característica 1",
     stock: 10,
     subtotal: 90,
     iva: 10,
-    estado: "Disponible",
-    images: [image],
+    estado: 1,
+    images: image,
   },
   {
-    id: "2",
-    name: "Producto 2",
-    valor: 150,
-    tipo_producto: "Tipo 2",
-    caracteristicas: "Característica 2",
-    stock: 5,
-    subtotal: 135,
-    iva: 15,
-    estado: "Bajo stock",
-    images: [
-      "https://images.pexels.com/photos/890669/pexels-photo-890669.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    ],
-  },
-  {
-    id: "3",
-    name: "Producto 3",
+    nombre: "Producto 1",
     valor: 100,
-    tipo_producto: "Tipo 3",
-    caracteristicas: "Característica 3",
-    stock: 8,
+    tipo_producto: 1,
+    caracteristicas: "Característica 1",
+    stock: 10,
     subtotal: 90,
     iva: 10,
-    estado: "Disponible",
-    images: [
-      "https://images.pexels.com/photos/1714208/pexels-photo-1714208.jpeg?auto=compress&cs=tinysrgb&w=600",
-    ],
+    estado: 1,
+    images: image,
   },
   {
-    id: "4",
-    name: "Producto 4",
-    valor: 150,
-    tipo_producto: "Tipo 4",
-    caracteristicas: "Característica 4",
-    stock: 2,
-    subtotal: 135,
-    iva: 15,
-    estado: "Bajo stock",
-    images: [
-      "https://images.pexels.com/photos/297933/pexels-photo-297933.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    ],
+    nombre: "Producto 1",
+    valor: 100,
+    tipo_producto: 1,
+    caracteristicas: "Característica 1",
+    stock: 10,
+    subtotal: 90,
+    iva: 10,
+    estado: 1,
+    images: image,
   },
 ];
 
@@ -101,7 +81,7 @@ export const soldProducts: Product[] = [
     subtotal: 180,
     iva: 20,
     estado: "Vendido",
-    images: [image],
+    images: image,
   },
   {
     id: "6",
@@ -113,9 +93,8 @@ export const soldProducts: Product[] = [
     subtotal: 225,
     iva: 25,
     estado: "Vendido",
-    images: [
+    images:
       "https://images.pexels.com/photos/890669/pexels-photo-890669.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    ],
   },
 ];
 
